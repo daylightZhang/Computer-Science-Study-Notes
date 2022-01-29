@@ -24,11 +24,11 @@ How to hand in the homeworkd and so on.
 
 - Two architectures of O.S kernels
 
-  <img src="C:\Users\Zhangjingkai\OneDrive - Cornell University\Course Notes\2022 Spring\CS5410 Operating System.assets\image-20220127132414197.png" alt="image-20220127132414197" style="zoom:50%;" />
+  <img src="https://github.com/daylightZhang/Computer-Science-Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220127132414197.png?raw=true" style="zoom: 67%;" />
 
 - Comparison
 
-  <img src="C:\Users\Zhangjingkai\OneDrive - Cornell University\Course Notes\2022 Spring\CS5410 Operating System.assets\image-20220127132605055.png" alt="image-20220127132605055" style="zoom: 50%;" />
+  <img src="https://github.com/daylightZhang/Computer-Science-Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220127132605055.png?raw=true" alt="image-20220127132605055" style="zoom: 50%;" />
 
 ### 2.3 How does the kernel get control?
 
