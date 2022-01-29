@@ -132,7 +132,7 @@ Motivation to learn OS:
   - System Calls(Synchronous/Non-maskable, User program requests OS services)
   - (Device or I/O) interrupts(Asynchronous/Maskable)
 
-#### 2.2.3 H/W interrupt Management
+### 2.3 H/W interrupt Management
 
 <img src=".\CS5410 Operating System.assets\image-20220129140352870.png" alt="image-20220129140352870" style="zoom: 50%;" />
 
@@ -141,7 +141,7 @@ Motivation to learn OS:
   - Interrupts have descriptor of interrupting device
   - Priority selector circuit examines all interrupting devices, reports highest priority level to the CPU
 
-### 2.5 Interrupt Handling
+#### 2.3.1 Interrupt Handling
 
 - Two objectives:
   1. handle the interrupt and remove its cause
@@ -150,7 +150,7 @@ Motivation to learn OS:
   1. the hardware goes first
   2. the kernel code takes control in *interrupt handler*
 
-### 2.6 Interrupt Handling (conceptually)
+==Working Process/Principle==
 
 - There is a supervisor SP and a user SP
   - both called SP
@@ -172,7 +172,10 @@ Motivation to learn OS:
 
 **Interrupt Handling**
 
-PSW(Processor Status Word)
+PSW(Processor Status Word):
+
+| Supervisor mode bit | Interrupts enabled bit | condition codes |
+| ------------------- | ---------------------- | --------------- |
 
 "return from interrupt" instruction:
 
@@ -182,10 +185,14 @@ PSW(Processor Status Word)
   - Re-enable interrupts
 - partly privileged: process cannot switch to supervisor mode or disable interrupts this way
 
+### 2.4 Software support
+
 **Saving Registers**
 
 - On interrupt, the kernel needs to save the registers as the kernel code needs to use the registers to handle the interrupt
 - Saving / restoring registers is expensive. Not all registers need to be saved (**SP, OC, PSW** is saved by *hardware*, other registers are saved by *software*)
+
+<img src=".\CS5410 Operating System.assets\image-20220129141810001.png" alt="image-20220129141810001" style="zoom:50%;" />
 
 **Example of Handler in C**
 
@@ -212,7 +219,7 @@ int handle_syscall(int type){
 }
 ```
 
-### 2.7 How kernel starts a new process
+#### 2.4.1 How kernel starts a new process
 
 1. allocate and initialize a PCB
 2. set up initial page table
@@ -222,5 +229,62 @@ int handle_syscall(int type){
    - push PSW
 5. clear all other registers
 6. return-from-interrupt
+
+### 2.5 Support for Devices
+
+Device management
+
+
+
+Device Registers
+
+- A device presents itself to the CPU as (pseudo) memory
+- Simple example:
+  - each pixel on the screen is a word in memory that can be written
+- Devices define a range of *device registers*
+  - accessible through LOAD and STORE operations
+
+**Example: Disk Device**
+
+- can only read and write blocks, not words
+- registers:
+  1. block number: which block to read or write
+  2. memory address: where to copy block from/to
+  3. command register: to start read/write operations
+     - device interrupts CPU upon completion
+  4. interrupt ack register: to tell device interrupt received
+  5. status register: to examine status of operations
+
+**Example: Network Device**
+
+- register:
+  1. receive memory address: for incoming packets
+  2. send memeory address: for outgoing packets
+  3. command register: to send/receive packet
+     - device interrupts CPU upon completion
+  4. interrupt ack register: to tell device interrupt received
+  5. status register: to examine status of operations
+
+### 2.6 Booting an O.S.
+
+Steps:
+
+- CPU starts at fixed address 
+  - in supervisor mode with interrupts disabled
+- BIOS (in ROM) loads "boot loader" code from specified storage or network device into memory and runs it
+- boot loader loads O.S. kernel code into memory and runs it
+
+**O.S. initialization**
+
+1. determine location/size of physical memory
+2. set up initial MMU / page tables 
+3. initialize the interrupt vector
+4. determine which devices the computer has
+   - invoke device driver initialization code for each
+5. initialize file system code
+6. load first process from file system
+7. start first process
+
+<img src=".\CS5410 Operating System.assets\image-20220129144219701.png" alt="image-20220129144219701" style="zoom:50%;" />
 
 ## Lecture 3
