@@ -6,9 +6,16 @@
 
 ## Lecture 1
 
-Introduction about the course 
+### 1.1 What is OS?
 
-How to hand in the homeworkd and so on.
+- OS is an ==intermediary== between programs and hardware
+- OS creates an environment to execute programs
+  - allocate resources(CPU,storage)
+  - controls programs
+    - cooperation (sharing and synchronization)
+    - isolation (protection and resource management)
+
+<img src="C:\Users\Zhangjingkai\OneDrive - Cornell University\All Notes\Study-Notes\2022 Spring\CS5410 Operating System.assets\image-20220129021238806.png" alt="image-20220129021238806" style="zoom: 33%;" />
 
 ## Lecture 2
 
