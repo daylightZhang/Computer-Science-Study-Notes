@@ -15,7 +15,76 @@
     - cooperation (sharing and synchronization)
     - isolation (protection and resource management)
 
-<img src="C:\Users\Zhangjingkai\OneDrive - Cornell University\All Notes\Study-Notes\2022 Spring\CS5410 Operating System.assets\image-20220129021238806.png" alt="image-20220129021238806" style="zoom: 33%;" />
+<img src="https://github.com/daylightZhang/Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220129021238806.png?raw=true" style="zoom: 33%;" />
+
+View the OS in two ways:
+
+- **Services** it provides to programs
+- **Components** implementing those services
+
+Motivation to learn OS:
+
+- Resource sharing (scheduling)
+- Cooperation (concurrent programming: communication, synchronization)
+- System sturcture (abstractions, interfaces)
+
+### 1.2 Difference between *Systems* and *Programs*
+
+#### 1.2.1 What OS cares:
+
+- **Measure** **of** **success**: OS concerned with **extensibility, security, reliability**
+- **External** **interface**: OS more complicated and subject to change E.g I/O devices
+- **Structuring** **techniques**: OS employs modules, layers, client-server, event-handler, transction
+
+#### 1.2.2 OS must bridge mismatched performance characteristics
+
+- Registers vs RAM vs Disk
+- Phone vs Laptop vs Server
+
+#### 1.2.3 OS is more complicated:
+
+- OS became very complicated when components are **combined**.
+
+- **Propagation** **of** **effects**: small changes have disproportionate effects
+
+- **Incommensurate** **scaling**: different parts follow different scaling rules 
+
+#### 1.2.4 How to manage complexity
+
+- Modularity->minimizes the connections between components
+- Abstraction->separate interface from internals, sperate specification from implementation
+- Hierarchy->easier to understand
+
+#### 1.2.5 Potential rules that OS can have
+
+- Referee: Manages shared resources
+  - Resource allocation
+  - Isolation
+  - Communication/Coordination
+- Illusionist: Virtual memory, multithread
+  - Virtualization
+  - Abstraction 
+    - Atomic operation - hardware guarantee atomicity at word level
+    - Reliable communication channels
+- Glue: Offer set of commmon services, seperate apps from I/O devices
+
+### 1.3 Issue in OS design
+
+- Sturcture: how to organize OS?
+- Concurrency: how are parallel activities created and controlled?
+- Sharing: how are resources shared?
+- Naming: how are resources named by users?
+- Protection: how are distrusting parties protected from each other?
+- Security: how to authenticate, authorize, and ensure privacy?
+- Performance: how to make it fast?  
+
+- Reliability: how to deal with failures?
+- Portability: how to write once, run anywhere?
+- Extensibility: how do we add new features?
+- Communication: how do we exchange information?
+- Scale: what happens as demands increase?
+- Persistence: how do we make information outlast the processes that created it?
+- Accounting: who pays the bill and how do we control resource usage? 
 
 ## Lecture 2
 
