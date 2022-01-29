@@ -90,9 +90,23 @@ Motivation to learn OS:
 
 ### 2.1 History of Operating System
 
+==*Phase* *1*==
+
+- Early Era (1945-1955)
+- Batch Processing (1955-1960)
+- Time-Sharing (1960-)
+- Time-Sharing + Security (1965-)
+
+*==Phase 2==*
+
+- Personal Computers (1975-)
+- Modern Era (1990-)
 
 
-### 2.2 Hardware support for processes
+
+### 2.2 Support for Processes
+
+#### 2.2.1 Hardware support
 
 - objective of an O.S *kernel* is to manage and isolate multiple processes
 
@@ -110,7 +124,7 @@ Motivation to learn OS:
 
   <img src="https://github.com/daylightZhang/Computer-Science-Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220127132605055.png?raw=true" alt="image-20220127132605055" style="zoom: 50%;" />
 
-### 2.3 How does the kernel get control?
+#### 2.2.2 How does the kernel get control?
 
 - Boot(reset, power cycle, ...)
 - Signals
@@ -118,10 +132,14 @@ Motivation to learn OS:
   - System Calls(Synchronous/Non-maskable, User program requests OS services)
   - (Device or I/O) interrupts(Asynchronous/Maskable)
 
-### 2.4 H/W interrupt Management
+#### 2.2.3 H/W interrupt Management
+
+<img src=".\CS5410 Operating System.assets\image-20220129140352870.png" alt="image-20220129140352870" style="zoom: 50%;" />
 
 - A CPU has only one device interrupt input
-- An *interrupt* Controller
+- An ***interrupt*** ***Controller*** manages interrups from multiple devices
+  - Interrupts have descriptor of interrupting device
+  - Priority selector circuit examines all interrupting devices, reports highest priority level to the CPU
 
 ### 2.5 Interrupt Handling
 
