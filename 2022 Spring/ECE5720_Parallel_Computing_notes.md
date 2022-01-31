@@ -157,7 +157,7 @@ smaller $\frac{t_{mem}}{t_{fl}}$ , faster the machine is.
 
 
 
-
+## Lecture 2
 
 ### 2.1 Terminology
 
