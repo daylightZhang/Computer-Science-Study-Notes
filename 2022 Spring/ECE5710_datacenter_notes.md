@@ -2,7 +2,7 @@
 
 [TOC]
 
-## Lecture1
+## Lecture 1
 
 ### 1.1 Questions when reading paper
 
@@ -69,7 +69,7 @@
 
       **The network's latency is lower than disk's**
 
-## Lecture2
+## Lecture 2
 
 - project list will come soon on Piazza
 - sign up for paper presentation
@@ -181,21 +181,47 @@ Disadvantages?
 **Reducing Variability**
 
 - Differentiate service classes
-- Overprovisioning
+  - Production->high-priority requests / apps
+  - Typically will prioritize requests from interactive apps
+- Overprovisioning: allocate more resources than needed
 - Reduce head-of-line blocking
-
+  - Some requests are much more expensive than others->can block the simpler requests from executing
+  - Time slicing: break the long requests into smaller components to allow shorter requests to interleave with them
 - Manage background tasks
+  - Disallow events such as log compaction or garbage collection during periods of peak user load
+  - Synchronize background tasks across machines
+
 
 **Reducing Tail Latency**
 
 - Accept service time variability and work around it
 - Replicate requests
-
 - Address tail-latency through long-term techniques
 
+**Address tail-latency though long-term techniques**
 
+- data in DCs is distributed across the machines
+- some data hotter than others
+- divide data in smaller, micro-partitions->easier shuffling, better load balancing, easier recovery
+- Detect the partitions that will cause imbalance and replicate them more replication factor
+- put slow machines on probation->use other machines until performance revocers
 
-### 2.4 What else is running in a DC
+### 2.4 Reliability & Availability
+
+- Common goal for services: 99.99% availability
+- But with thousands of nodes, things will crash
+
+#### 2.5 Consistency
+
+- Multiple datacenters implies dealing with consistency issues
+
+#### 2.6 Performance / Availability Techniques in DCs
+
+<img src="./ECE5710_datacenter_notes.assets/image-20220131152342907.png" alt="image-20220131152342907" style="zoom:80%;" />
+
+Difference between load-balancing and partitioning ?
+
+### 2.7 What else is running in a DC
 
 - Platform-level software
 - Cluster-level infrastructure
@@ -203,7 +229,7 @@ Disadvantages?
 
 
 
-
+## Lecture 3 Hardware
 
 
 
