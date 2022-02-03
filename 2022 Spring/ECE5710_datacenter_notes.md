@@ -237,6 +237,36 @@ Difference between load-balancing and partitioning ?
 
 
 
+## Lecture 4 Power Management
+
+
+
+
+
+## Lecture 5 Power Management
+
+Custom-design servers
+
+- Configurations optimized for application needs
+- Few configurations to allow reuse across many applications
+- Roughly constant power budget per volume
+
+What are issues to consider?
+
+- price goes exponentially when increase socket number
+- performance
+
+**Large VS small servers**
+
+- when communication is high, data needs to be distrbuted to each server, so leading higher latency for large cluster
+- performance may be limited for Internet bandwidth, in this case, smaller server is more efficient and cost-effective
+
+
+
+
+
+
+
 
 
 

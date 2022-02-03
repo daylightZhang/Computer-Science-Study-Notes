@@ -287,4 +287,47 @@ Steps:
 
 <img src=".\CS5410 Operating System.assets\image-20220129144219701.png" alt="image-20220129144219701" style="zoom:50%;" />
 
+### 2.7 Anatomy of computer
+
+Architecture Diagram
+
+<img src="./CS5410 Operating System.assets/image-20220202110830705.png" alt="image-20220202110830705" style="zoom:67%;" />
+
+**Important notes with Bus**
+
+- Control bus: Load/Store/Interrupt/...
+- Data bus: x lines -> **word** is x bits
+  - e.g: 32 lines: **word** is 32 bits (4 bytes)
+- Address bus: y lines -> address is y bits
+  - process can address at most $2^y$ bytes
+
+
+
 ## Lecture 3
+
+#### 3.1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
