@@ -305,15 +305,73 @@ Architecture Diagram
 
 ## Lecture 3
 
-#### 3.1 
+### 3.1 Intro of process
 
+Program VS program
 
+- program consists of code and data
+- typically stored in a file on disk
+- "running a program" -> create a process
 
+**What is a "Process"?**
 
+- An executable running on an abstraction of a computer:
+  - Address Space (memorry)+Execution Context (registers)
+  - Environment (clock, files, network,...)
 
+Good abstraction:
 
+- is portable and hides implementation details
+- has an intuitive and easy-to-use interface
+- can be instantiated many times
+- is efficient to implement
 
+ **System Calls**
 
+- A process runs on CPU
+- Can access O.S. kernel through "system calls"
+- Skinny interface
+  - **Why?**
+    - Portability
+    - Security
+
+<img src="./CS5410 Operating System.assets/image-20220204155633040.png" alt="image-20220204155633040" style="zoom: 33%;" />
+
+### 3.2 Multiple processess
+
+A proces physically runs on the CPU
+
+Each process has its own
+
+- Registers
+- Memory
+- I/O resources
+- "thread of control"
+
+**Process Control Block (PCB)**
+
+- location in memory
+- location of executation on disk
+- which user is executing this process (uid)
+- process identifier (pid)
+- process status (running, waiting, finished, etc.)
+- scheduling information
+- interrupt stack
+- save kernel SP (when process is not running)
+- More...
+
+**Invariants to keep in mind**
+
+- At most 1 process is RUNNING at any time (per core)
+- When CPU is in user mode, current process is RUNNING and its interrupt stack is empty
+- If process is RUNNING
+  - its PCB is not on any queue
+  - however, not necessarily in user mode
+- If process os RUNNABLE or WAITING
+  - its interrupt stack is non-empty and can be switched to 
+  - its PCB is either on the run queue or wait queue
+- If a process is FINISHED
+  - its PCB is on finished queue
 
 
 
