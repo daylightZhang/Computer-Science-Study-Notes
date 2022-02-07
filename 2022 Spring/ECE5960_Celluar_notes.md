@@ -339,3 +339,345 @@ PUCCH - uplink - 1ms
 
 ## Lecture 3
 
+MIMO (multiple input/multiple output)
+
+$N_t,N_r$ are transmit antenas and receive antenas 
+
+We cab create up to min($N_t,N_r$)transmission layer
+
+->independent paths from transmitter to receiver
+
+- Diversity -> better BER performance
+- Spacial multiplexing -> higher data rates
+
+transmission rate = $N_L$ = layers
+
+Closed loop spatial multiplexing
+
+- CSI(channel state information) used to update channel estimates
+- select precoders matrices->precoding makes layers look like independent channels
+
+Release 8 Bcsics
+
+- peak 150mbps donlink with 2 layers in 20mHz BW
+- 75mbps in uplink (1 layer)
+- overall latency - 10ms (100ms max tolerance for voice)
+
+Release 10 - lake 2010 "Evolution"
+
+           - carrier aggregation
+           - advanced mimo
+           - relaying
+
+Release 13 - "LTE advanced pro"
+
+- 4.5G
+- Licensed-assisted access to unlicensed spectra
+- enhanced carriers aggregation / mimo
+
+**Carrier aggregation** - A big success
+
+Release 10 - Up to component carriers -> up to 100mHz total
+
+
+
+Later we get up to 32 component carriers->up to 640 mHz
+
+
+
+Fragmented spectra -> batches of subcarriers not contiguous
+
+
+
+License assisted - "gentle" use of ISM bands using cellular air interface
+
+
+
+MIMO enhancements
+
+"Full dimension mimo"
+
+- increase CSI
+- spatially separated devices can use the same time/frequency resources->beamforming
+
+Densification (relaying)
+
+- relaying: relay cell that looks like UE (user equipment) to the donor cell
+
+
+
+**Heterogeneous Deployments**
+
+​               microcells - neighborhood
+
+​               femtocells - residence
+
+- small cell on/off -> micro/femtocells can be turned off to reduce interference
+
+**Dynamic TDD**
+
+​                         **Duplex** - two way channel
+
+​                         FD**D** - Frequency division
+
+​                         TD**D** - time division
+
+- same carriers freq. used for uplink and downlink
+- change configuration -> allocation of resources varies
+
+New Scenarios
+
+- Device to device -> important for low-coverage areas
+- Machine type communication
+  - narrow band IoT (Release 13) < 250 kbps
+
+
+
+**NR Overview / Chapter5**
+
+main benefits of 5G over LTE
+
+- exploitation of much higher frequency bands
+  - aggregating
+- Ultra-?le design in over the air (OTA) protocol
+  - minimize **always-on** approach
+- forward compatibility
+- low latency -> expands use cases
+- extensive use of beom forming 
+  - strong need for CSI
+
+**Radio-Interference Architecture / Chapter 6**
+
+Key issue: split between radio access netork (RAN) and core network (CN)
+
+RAN-radio-related functionality
+
+- scheduling
+- link technologies
+  - HARQ protocols
+  - coding
+  - mimo
+
+CN-infrastructure, non-radio
+
+- authentication
+- end-to-end connections
+- charging / rules function
+
+
+
+LTE Core - envolved packet core (EPC)
+
+5G-RAN->EPC
+
+​      ->5G CN (evolutionary path)
+
+EPC -> 5GCN
+
+- services-based architecture
+- network slicing support
+- control plane / user plane split
+
+
+
+**Service-based architecture**
+
+- focus on service/functionality/process instead of nodes/services -> services are more transportable/flexible
+
+Network slicing
+
+- Dates back to PSTN
+- slice = logical network with necessary functions for customers   -> virtual networks
+- multiple slices may run on same services
+
+Control Plane / user plane split
+
+- independent scaling
+
+**5G RAN**
+
+gNB - g node B - base station
+
+​      part of both user/control plane
+
+ng-eNB - next generation e node B
+
+   - LET user/control planes
+
+Can cover several cells
+
+- logical node, not a physical device
+
+
+
+AMF = access and mobility management functions
+
+
+
+UE (user equipment) connectivity example
+
+Dual connectivity - connections through multiple cells ( not as tightly coupled as carriers aggregation)
+
+
+
+**Quality of Service (QoS)**
+
+Voice-low data rate, high BER, low latency application
+
+Streaming video - low BER, high latency
+
+Email - medium BER, high latency 
+
+QCI = QoS class Identifies
+
+  1 = Voice
+
+  6 = Data
+
+  8 = throttling
+
+
+
+Connected Device
+
+- PDU sessions
+  - QoS flow
+  - data radio readers ?
+
+## Lecture 4
+
+**Radio Architecture**
+
+Apps - user interface
+
+​	IP packets
+
+Apps -> mapping to QoS flows (UPF) -> mapping to radio bearers (gNB) -> channel -> UE
+
+SDAP - service data app protocol
+
+packets marked with quality flow identifiers (QFI)
+
+
+
+User plane protocols (Downlink)
+
+​                       QoS flows
+
+user plane protocol -> SDAP -> PDCP (packet data convergence protocol) Header component -> RLC (radio link controller) segmentation ARQ -> MAC, multiplex and HARQ -> PHY
+
+- segmentation: breakets packets up into transport blocks
+- ARQ - automatic repreat request
+
+- MAC - medium access control
+- HARQ - Hybrid-ARQ
+
+
+
+Service Data application protocol (SDAP)
+
+- mao QoS flows to data radio bearers
+- marks packets with QFI
+
+Packet Data convergence protocol (PDCP)
+
+- IP header compression (ROHC)
+- encryption
+- duplicate removed
+- re-ordering for insequence delivery
+- re-transmisssions of uplink packets not delivered due to handover
+- dual connectivity
+  - handles split between mater and secondary cell groups
+
+
+
+**RLC**
+
+- segmentation of RLC SDU's into RLC PDU's
+- modes
+  - transparent mode (no headers added)
+  - unacknowledged mode (segmentation, duplicate detected)
+  - acknowledged mode (ARQ)
+
+Segmentation - Fill up transport block
+
+             - update headers to denote segemtned SDU
+
+ARQ 
+
+- Included on RLC and MAC
+  - RLC - sequence based, detects missing packets
+  - MAC - detects symbol errors -> faster
+
+
+
+MAC
+
+logical channels (symantics)
+
+- broadcast control channel (BCCH)
+  - system information
+
+- paging control channel (PCCH)
+  - Notification of incoming calls
+  - based on multiple cells / location area
+- Common control channel (CCCH)
+  - Control info related to random access
+- Dedicated Control channels (DCCH)
+  - Device configuration
+- Dedicated Traffic Channel (DTCH) -> traffic channel
+  - uses Data
+
+Logical Control Channel (BCCH, PCCH, CCCH, DCCH)
+
+---
+
+Radio Interface Architecture 
+
+logical channels -> semantic context
+
+<img src="./ECE5960_Celluar_notes.assets/image-20220206142928186.png" alt="image-20220206142928186" style="zoom:50%;" />
+
+Transport Channels
+
+-> transport blocks
+
+- one per transmission time interval = 1.0 ms
+
+  (if layers <= 4)
+
+- two transport blocks per TTI when layers >= 4
+
+- TTI is scalable in 5G to reduce latency
+
+-> Transport format (TF)
+
+- size of blocks
+- modulation and coding
+- antenna mapping
+
+All above three determines data rate
+
+
+
+**Types of Transport Channels**
+
+- Broadcast channel (BCH)
+  - Fixed TF
+  - Conveys master InFo blocks (MIB)
+- Paging channel (PCH)
+  - paging info
+  - supports DRX (discoutinuous reception)
+    - sends info at predetermined times
+    - handset can power down periodically
+
+- Downlink shared channel (DL-SCH)
+  - man transport channel for downlink user data
+  - dynamic rate adaptation
+  - channel dependent scheduling
+  - spatial multiplexing
+  - HARQ with soft combining
+- Uplink shared channel (UL-SCH)
+- Random access channel (RACH)
+  - no transport blocks
+
