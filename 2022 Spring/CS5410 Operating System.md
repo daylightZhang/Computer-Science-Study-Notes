@@ -373,17 +373,155 @@ Each process has its own
 - If a process is FINISHED
   - its PCB is on finished queue
 
+**Cleaning up zombies**
+
+- Process cannot clean up itself
+- Process can be cleaned up 
+  - by any other process
+  - by parent when it waits for it
+  - by dedicated "reaper" process
+
+**Process of yidld/wait** (from process 1 to process2)
+
+1. save kernel registers of process 1 on its interrupt stack
+2. save kernel sp of process 1 in its PCB
+3. restore kernel sp of process 2 from its PCB
+4. resotre kernel registers from its interrupt stack
+
+**Three "kinds" of context switches**
+
+1. Interrupt: From user to kernel space
+   - system call, exception, or interrupt
+2. yield: between two processes **inside**
+   - inside the kernel, switching from one PCB/interrupt stack to another
+3. From kernel space to user space
+   - Through a return_from_interrupt
+
+Note that each involves a stack switch:
+
+> 1. Px user stack -> Px interrupt stack
+> 2. Px interrupt stack -> Py interrupt stack
+> 3. Py interrupt stack -> Py user stack
+
+**Creating and managing process**
+
+| fork()          | create a child process as a clone of the current process. Return to both parent and child. Returns child pid to parent process, **0 to child process.** |
+| --------------- | ------------------------------------------------------------ |
+| exec(prog,args) | Run the application prog in the current process with the specified arguments (replacing any code and data that was in the process already) |
+| wait(&status)   | Pause until a child process has exited                       |
+| exit(status)    | Tell the kernel the current process is complete and shoule be garbega collected |
+| kill(pid,type)  | Send an interrupt of a specified type to a process           |
+
+**Code example**
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    int child_pid = fork();
+    
+    if (child_pid == 0) { // child process
+        printf("I am process %d\n", getpid());
+    } else {              // parent process
+        printf("I am the parent of process %d\n", child_pid);
+    }
+    return 0;
+}
+```
+
+Output:
+
+```powershell
+I am the parent of process 13125
+I am process 13125
+```
+
+**Review**
+
+- A **process** is an abstraction of a processor
+- A **context** captures the running state of a process:
+  - registers (including PC, SP, PSW)
+  - memory (including the code, heap, stack)
+- The **implementation** uses two contexts:
+  - user context
+  - kernel (supervisor) context
+- A **Process Control Block (PCB)** points to both contexts and has other information about the process
+
+- Modes of process:
+  1. Initializing
+  2. Running
+  3. Runnable (on the "run" aka "ready" queue)
+  4. Waiting (aka **Sleeping** or **blocked**)
+  5. Zombie
+
+---
+
+**Load**
+
+- length of the run queue
+- On linux, it records
+  - last 1 min, 5 min, 15 min
+
+Example of **Load Average**
+
+<img src="./CS5410 Operating System.assets/image-20220211143127297.png" alt="image-20220211143127297" style="zoom:80%;" />
 
 
 
+---
+
+### 3.3 Threads! (Chapter 25 - Chapter 27)
 
 
 
+**Process VS. Thread Abstraction**
 
+- A process is an abstraction of a computer 
+  - CPU, memeory, devices
+- A thread is an abstraction of a core
+  - registers (including PC and SP)
+- Process typically have their **own** (virtual) memory, but differen threads **share** virtual memory.
+- Process tend to be mutually **distrusting**, threads must be mutually trusting.
 
+**Preemotion(抢占)**
 
+- Two kinds of threads:
+  - non-preemptive: explicitly yield to other threads
+  - preemptive: yield automatically upon clock interrupts
+- Most moderen threading systems are preemptive
 
+**Implementation of Threads**
 
+1. "kernel threads": each thread has its own PCB in the kernel, but the PCBs point to the same physical memeory
+2. "user threads": one PCB for the process; threads implemented entirely in user space. Each thread has its own Thread Control Block(TCB) and context.
+
+**Kernel-level threads**
+
+- separate PCB for each thread
+- PCBs have:
+  - same: page table base register
+  - different: PC, SP, registers, interrupt stack
+
+**User-level threads**
+
+- Single PCB
+- Thread Control Block (TCB) for each thread
+
+Comparsion
+
+<img src="./CS5410 Operating System.assets/image-20220211144909169.png" alt="image-20220211144909169" style="zoom:80%;" />
+
+**Event-based programming**
+
+- No "blocking operations"
+  - No read(), wait(), lock(), etc.
+- Code is a collection of event handlers
+  - invoked when some event happens
+  - runs to completion
+  - (similar to I/O interrupt handlers)
+
+<img src="./CS5410 Operating System.assets/image-20220211145814201.png" alt="image-20220211145814201" style="zoom:70%;" />
 
 
 

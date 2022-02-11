@@ -230,3 +230,15 @@ Speed-up: Ratio of sequential, $t_seq$, to parallel, $t_{par}(n)$, execution tim
 $$
 s_n=\frac{t_{seq}}{t_{par}(n)}
 $$
+
+
+
+
+## Lecture 5
+
+
+
+
+
+## 
+

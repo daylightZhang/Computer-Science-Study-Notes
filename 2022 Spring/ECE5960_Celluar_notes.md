@@ -418,9 +418,9 @@ Densification (relaying)
 
 ​                         **Duplex** - two way channel
 
-​                         FD**D** - Frequency division
+​                         **FDD** - Frequency division
 
-​                         TD**D** - time division
+​                         **TDD** - time division
 
 - same carriers freq. used for uplink and downlink
 - change configuration -> allocation of resources varies
