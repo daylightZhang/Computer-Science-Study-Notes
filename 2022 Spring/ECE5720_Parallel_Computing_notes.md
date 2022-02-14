@@ -4,7 +4,10 @@
 
 ## Lecture 1
 
+<font color="red">Need for fast computers in engineering</font>
 
+- data mining, machine learning, computational finance
+- video games, medical imaging, drug design, etc
 
 Parallelism is not a new idea
 
@@ -15,9 +18,11 @@ Parallelism is not a new idea
 
 **Cost of Algorithms**
 
-- cost of arithmetic / logic operations
-- cost of moving data - local vs. remote read / write 
-- cost of control
+- cost of arithmetic/logic operations 运算，例如加减乘，位移
+- cost of moving data - local vs. remote read/write 移动数据所需的时间
+- cost of control 控制所需
+
+<font color="red">Potential Question here</font>
 
 ### 1.1 Most common "walls"
 
@@ -33,7 +38,7 @@ Time to fetch data from ouside the CPU chip is much greater than time per flop
 
   **Bandwidth**->bytes transferred per unit of time
 
-  time/operation < time/data moves on chip \<\< time/data moves off chip 
+  time/operation < time/data moves on chip \<\< time/data moves off chip <font color="red"><font color="red">Potential Question here</font></font>
 
 #### 1.1.2 Power Wall
 
@@ -44,7 +49,7 @@ Time to fetch data from ouside the CPU chip is much greater than time per flop
 #### 1.1.3 Instruction Level Parallelism (ILP) Wall
 
 - concurrent execution of independent instructions on duplicate hardware
-- one needs to exmine large subblocks of instructions to find independent ones (done mostly in haardware)**DO NOT UNDERSTNAD**
+- one needs to exmine large subblocks of instructions to find independent ones (done mostly in hardware)**DO NOT UNDERSTNAD**
 - large and complex execution units with diminishing returns
 
 ### 1.2 Caches
@@ -55,7 +60,7 @@ Construct an intermediate small but fast storage **(cache)** between registers a
 
 Several levels of larger caches
 
-- L1 on chip, 32KB, 64KB, 128KB
+- L1 on chip, 32KB, 64KB, 128KB <font color="red">Only L1 on the chip</font>
 - L2 (256KB, 512KB, 1MB) and L3 (vary from 4MB to 32MB) off chip
 - This improves the "Average Memory Access Time" (AMAT)
 
@@ -71,6 +76,8 @@ Several levels of larger caches
 
 The above operation is mostly automatic and implicit (But programmers can help)
 
+<font color="red">Potential Question here</font>
+
 #### 1.2.2 Cache organization
 
 <img src=".\ECE5720_Parallel_Computing_notes.assets\image-20220129224832294.png" alt="image-20220129224832294" style="zoom:80%;" />
@@ -85,12 +92,19 @@ $$
 - each set is a collection of $N>=1$ **lines** (degree of associativity)
 - each line contains b **words**
 
+<font color="red">Potential Question here</font>
+
+- Less sets, more slots per set (longer tags)
+- Higher associativity (8 is common) higher cost (searching a matching tag costs more)
+
 #### 1.2.3 Matching tags
 
 ![image-20220129231418133](.\ECE5720_Parallel_Computing_notes.assets\image-20220129231418133.png)
 
 - Cache **hit** when copy of needed data in cache
 - Cache **miss** otherwise
+
+<font color="red">Potential Question here</font>
 
 Miss types:
 
@@ -155,7 +169,23 @@ smaller $\frac{t_{mem}}{t_{fl}}$ , faster the machine is.
 
 
 
+For block size, we need to make sure A, B, C must fit in fast memory, Therefore
+$$
+3b^2<=M \to q\approx b <= \left(\frac{M}{3} \right)^{\frac{1}{2}}
+$$
+Thus
+$$
+t_{total}\approx N_{t_{fl}} \left(1+\frac{200 \sqrt3}{\sqrt M} \right)
+$$
+**TH (Kung, 1981)** Any reorganization of this matrix-matrix multiply algorithm is bounded by $q=O(M^{\frac{1}{2}})$.
 
+
+
+**Implications**
+
+- data locality
+  - accessing (remote) data is the most expensive operation
+  - reuse of recent or nearby data 
 
 ## Lecture 2
 
@@ -181,17 +211,35 @@ smaller $\frac{t_{mem}}{t_{fl}}$ , faster the machine is.
 
 **Flynn's classification**
 
+<font color="red">potential quiz problem</font>
+
 - SISD - single instruction, single data
+
+  - One instruction stream is acted on by a single PE
+  - Deterministic execution (result will not change)
+  - Oldest type of computer
 
 - SIMD
 
   <img src=".\ECE5720_Parallel_Computing_notes.assets\image-20220127150142241.png" alt="image-20220127150142241" style="zoom:50%;" />
+
+  - Operates on arrays od data
+  - Elements of an array are acted opon by the same single instruction but by different PEs
+  - PEs execute same instructions at the same cycle (lock step execution)
+  - PEs operate on different elements
+  - Specialized for problems with high degree of regularity
 
 - MISD ?
 
 - MIMD - multiple instruction, multiple data
 
   <img src=".\ECE5720_Parallel_Computing_notes.assets\image-20220127150418425.png" alt="image-20220127150418425" style="zoom:50%;" />
+  
+  - Every PE may be executing a different instruction possibly on different data at its own pace.
+  - Synchronous or asynchronous execution, possibliliy of <font color="red">race condition</font>
+  - Common gobal address space visible to all PEs
+  - Communication via shared data
+  - Cache coherence mechanism required
 
 Shared memory threads model
 
@@ -220,7 +268,12 @@ Advantages:
 Disadvantages:
 
 - programmer is responsible how and when data is communicated between PEs
-- NUMA times
+- NUMA (non-uniform memory access) times
+
+**Granularity**: Task's computation to communication time ratio.
+
+- Coarse: large amount of computation of work is done between communication events - often distributed memory.
+- Fine: small amount of computational work is done between communication events - often shared memory
 
 ### 2.3 Performance metrics
 
@@ -231,6 +284,45 @@ $$
 s_n=\frac{t_{seq}}{t_{par}(n)}
 $$
 
+**Efficiency**: how well the resources are utilized
+$$
+e_n=\frac{s_n}{n}=\frac{t_{seq}}{n\cdot t_{par}(n)}
+$$
+**Scalability**: tell whether the algorithm can handle a growing amount of work or PEs efficiency.
+
+- Can increase of the number of PEs increase the speed-up?
+- Can a parallel system keep efficiency by increasing the number of PEs and the problem size, simultaneously?
+
+**Amdahl's Law**: For a <font color="red">fixed size workload</font> the speedup is determined by the fraction of sequential code.
+
+
+
+When $q=\frac{t_{fast}}{t_{slow}}<0.1$, a single fast PE always better then $n$ slow PEs.
+
+- For a fixed wordload, speed-up is determined by the fraction $\alpha$ of parallel code
+  $$
+  s_n<=\frac{1}{1-\alpha}
+  $$
+
+- 
+
+<font color="red">potential quiz question</font>
+
+**Gustafson's law** if $n$ PEs execute in time $t_{par}$ with $\alpha$ fraction of parallel code then the speedup over a single PE is 
+$$
+s_n=\frac{t_{seq}}{t_{par}}=(1-\alpha)+\alpha\cdot n \to \infty
+$$
+**PRAM**
+
+Parallel Random Access Memory
+
+
+
+## Lecture 3
+
+
+
+**mutex**
 
 
 
