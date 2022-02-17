@@ -681,3 +681,310 @@ All above three determines data rate
 - Random access channel (RACH)
   - no transport blocks
 
+
+
+## Lecture 5
+
+SDAP (service data app protocol) -> apply QFI to each packet
+
+PDCP 
+
+dual connection ?
+
+RLC (radio link controller)
+
+ARQ (?)
+
+HARQ
+
+Carrier aggregation
+
+Error control
+
+**Downlink**
+
+- logical channels (PCCH, CCCH, DTCH, DCCH)
+- transport channel (PCH, BCH, DL-SCH)
+- physical channel (PBCH, PDSCH, PDCCH)
+
+**Uplink**
+
+- logical (CCCH, DTCH, DCCH)
+- transport (UL-SCH, RACH)
+
+- physical (PUSCH, PUCCH, PRACH)
+
+**MAC control element**
+
+- inband control signalling
+- scheduling info
+  - buffer status report (BSR)
+  - power headroom -> indicators to how much faster you can transmit
+
+**Random Access Info**
+
+- C-RNTI (Radio network temporary ID)
+- Contention resolution
+
+**Timing advances**
+
+- DRX discontinuous reception and control -> save battery power
+
+**MAC Data distribution**
+
+...
+
+==Carrier Aggregation==
+
+- tight connectivity
+
+- same gNB
+
+- joint scheduling
+
+==Dual connectivity== 
+
+- looser coordination
+- potentially different gNBs
+- potentially different Radio access
+
+
+
+**Scheduling**
+
+- Book includes this in MAC discussion
+- dynamic scheduling - once per slot
+- uplink scheduler
+  - which devices tend to use UL-SCH
+  - which resource are allocated?
+
+==gNB== does not decide which data will be transmitted on the uplink
+
+- which radio (barrier?)
+- which apps?
+
+==details of scheduling are not in standard==
+
+- downlink channel-dependent scheduling
+  - Uses CSI
+- Uplink
+  - BSR, Power headroom
+
+**Hybrid-ARQ with soft combining**
+
+ARQ (automatic repeat request)
+
+- combines error correction and detection
+- soft combining (physical layer) ? -- 
+- "Soft" 
+
+---
+
+Lecture 5B
+
+**Control Plane Protocols**     Non-Access stratum/control plane (NAS)
+
+- connection setup         Access and mobility function (AMF)
+- mobility
+- security
+
+
+
+- Authentication
+- security (Crypto-preventing surveillence)
+- idle mode processors (e.g. paging)
+
+Assignment of IP address
+
+**Radio Resource Control Plane** (Access Stratum)
+
+
+
+RAN-control function
+
+- broadcast of system info
+- transmission of paging messages
+- connection management
+- mobility management (cell selection)
+
+measurement/config. reporting
+
+
+
+RRC messages use radio signal bearers
+
+- CCCH (during connection establishment)
+- DCCH (after connection established)
+
+
+
+**RRC state machine** 
+
+first- RRC idle
+
+- no data transfer
+- no RRC context
+- no core network connection
+- devices controlled mobility
+
+second - RRC inactive (**New to 5G**)
+
+- no data transfer
+- RRC context
+- core network connection
+- device controlled mobility
+
+third - RRC connected
+
+- data transfer
+
+- RRC context
+- core network connection
+- network controlled mobility
+
+
+
+4G/5G apps generate lots of small packets 
+
+- frequent transition to RRC_connected
+- RRC_inactive (new to 5G) speeds this up (no core network signalling needed)
+
+
+
+Mibility Management
+
+- network keeps track of your location
+  - knows where to send paging messages -> registration message
+- Privacy issue 
+- Idle and inactive states
+  - handset searches for cell with best signal
+
+- Handset listens for nearby broadcast channels (PBCH)
+- Handset reselects cell if power sufficiently higher than correct cell -> Random access notification to network (no connection) -> PRACH
+
+
+
+Paging over entire network -> waste of resources in celluar
+
+Page only in current cell -> overhead is high if user has moved
+
+-> work with groups of cells
+
+
+
+cell -> RAN areas (RAI-tracking basis) -> Tracking areas (TAI-tracking basis for core network)
+
+​			Paging indicator - radio network temporary identifier
+
+Paging 
+
+- indicated by PI-RNTI within downlink control info (DCI)
+- when hanset sees PI-RNTI, handset goes to PDSCH to extract paging information
+
+
+
+Mobility Management - connected states
+
+- device continually listening to new cells 
+  - device reports power measurements
+  - network decides to which cell to hand you off (likelihood of dropped calls -> 0%)
+
+
+
+Transmission Structure (Chapter 7)
+
+OFDM uses the cyclic prefix
+
+why?
+
+- isolated distinct OFDM blocks from each other when channels is fading
+- Turns linear convolution into circular -> allow single-tap equalization 
+
+
+
+CP is a copy of the end of the symbol
+
+- channel response over CP is the same as response at end of symbol
+- looks like convolution at end of FFT window is the same as that of the front
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
