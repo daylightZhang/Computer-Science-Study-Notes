@@ -523,7 +523,140 @@ Comparsion
 
 <img src="./CS5410 Operating System.assets/image-20220211145814201.png" alt="image-20220211145814201" style="zoom:70%;" />
 
-<font color='red'>dfsfssf</font>
+
+
+## Lecture 4
+
+- mechanism: -context switch between processes
+- policy: -scheduling: which process to run next
+
+
+
+**Schedulers in the OS**
+
+- <font color="red">CPU Scheduler</font> selects a process to run from run queue (Main focus)
+
+- <font color="red">Disk Scheduler</font> selects next read/write operation
+- <font color="red">Network Scheduler</font> selects next packet to send or process
+- <font color="red">Page Replacement Scheduler</font> selects page to evict
+
+
+
+**CPU Burst Prediction**
+
+Approximate duration of the next CPU-burst
+
+- Based on the durations of the past bursts
+- Use past as a predictor of the future
+
+*Use exponential moving average:*
+
+$t_n$ actual duration of $n^{th}$ CPU burst
+
+$\tau _{n}$ predicted duration of $n^{th}$ CPU burst
+
+$\tau_{n+1}$ predicted duration of $(n+1)^{th}$ CPU burst
+$$
+\tau_{n+1}=\alpha \tau_n + (1-\alpha)t_n
+$$
+  where $0<= \alpha <=1$, $\alpha$ determines weight placed on past behavior
+
+
+
+**Metrices**
+
+<img src="./CS5410 Operating System.assets/image-20220219132738658.png" alt="image-20220219132738658" style="zoom: 50%;" />
+
+**Context switch overhead**
+
+- Cost of saving registers
+- Plus cost of scheduler determining the next process to run
+- Plus cost of restoring registers
+
+**First In First Out (FIFO)**
+
+Advantages:
+
+- Simple, low-overhead, no starvation
+
+Disadvantages:
+
+- Average turnaround time very sensitive to schedule order
+- Not responsive to interactive jobs
+
+**Shortest Job First (SJF)**
+
+Ad:
+
+- Optimial average turnaround time
+
+Disad:
+
+- Pessimal variance in turnaround time
+- Needs estimate of execution time
+- Can starve long jobs
+
+**Earliest Deadline First (EDF)**
+
+Ad:
+
+- Meets deadlines if possible
+- Free of starvation
+
+Disad:
+
+- Does not optimize other metrics
+- Cannot decide when to run jobs without deadlines
+
+**Round Robin (RR)**
+
+Ad:
+
+- No starvation
+- Can reduce response time
+
+Disad:
+
+- Context switch overhead
+- Mix of I/O and CPU bound
+- bad avg. turnaround time for equal length jobs
+
+**Shortest Remaining Time First (SRTF)**
+
+Ad:
+
+- Good for response time and turnaround time of I/O-bound processes
+
+Disad:
+
+- Needs estimate of execution time of each job
+- Suffers from starvation
+
+**Completely Fair Scheduler (CFS)**
+
+- Define "Spent Execution Time (SET)" to be the amount of time that a process has been executing
+
+- Scheduler selects process with lowest SET
+
+- let $\Delta$ be some time (typically, 50ms or so)
+
+- let N be the number of processes on the run queue
+
+- Process runs for $\frac{\Delta}{N}$ time
+
+- If it uses up this quantum, reinsert into the queue
+
+  ​	SET += $\Delta$ / N
+
+- If a process is new or it sleeps and wakes up, then its SET is initialized to the minimum of the SETs of the processes on the run queue
+
+
+
+
+
+
+
+
 
 
 
