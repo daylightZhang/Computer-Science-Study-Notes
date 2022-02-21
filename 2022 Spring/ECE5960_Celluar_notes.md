@@ -909,14 +909,395 @@ CP is a copy of the end of the symbol
 
 
 
+## Lecture 6
+
+Numerology of the Waveform
+
+- subcarriers spacing
+- CP (cyclic prefix) length
+
+large subcarriers spacing -> reduced impact of frequency error and phase noise -> requires fast symbol rate -> shorter duration for each symbol -> increased overhead from CP
 
 
 
+LTE -> 15kHz subcarriers spacing
+
+​       CP = 4.7us
+
+​       Good for outdoor celluar up to 3GHz carriers freq.
+
+4.7 us -> 0.87 miles at speed of light
+
+large cells -> large CP
+
+high frequencies -> shorter CP (<4.7us)
+
+small cells
 
 
 
+Scalable Numerology
+
+| subcarrier spacing (Khz) | Useful symbol time (us) | cyclic prefix (us) |
+| ------------------------ | ----------------------- | ------------------ |
+| 15                       | 66.7                    | 4.7                |
+| 30                       | 33.3                    | 2.3                |
+| 60                       | 16.7                    | 1.2                |
+| 240                      | 4.17                    | 0.29               |
+
+There exists an extended CP to allow for extreme time dispersion
 
 
+
+Time Domain Structure
+
+Frames - 10 ms -> Subframes - 1 ms -> Slots - 14 OFDM symbols -> defined by fixed of symbols
+
+
+
+| $\Delta$ F | Slot time |
+| ---------- | --------- |
+| 15KHz      | 1 ms      |
+| 30         | 0.5 ms    |
+| 60         | 0.25 ms   |
+| 240        | 0.0625 ms |
+
+To improve latency, slot need not be full
+
+- manufacturing/safety
+- self-driving cars
+
+-> mini-slot transmission (new use case -> low latency (high reliability))
+
+- Also useful for use in unlicensed spectrum
+  - listen before transmit
+  - transmit immediately when UL spectrum is free
+
+
+
+Frequency Domain Structure
+
+
+
+"DC subcarriers" - device center frequency
+
+- fixed location for LTE
+
+- problematic due to local oscillate leakage
+- vary DC subcarriers due to variation in a available subcarriers
+
+Resource Element in LTE
+
+- one subcarrier, one OFDM symbol
+
+Resource Block
+
+- 12 consecutive subcarriers
+  - one dimensional 
+  - flexible transmission times
+
+
+
+Common Resource Blocks (CRBs)
+
+- Run from CRB0 to max RB for a given subcarriers spacing
+- First subcarriers of CRB0 is Point A
+  - common reference points
+  - all RBs start here
+
+
+
+Physical Resource Blocks
+
+- defined in a bandwidth part
+- defined actual transmitted signal
+
+
+
+In LTE, all devices support 20MHz BW
+
+In 5G, we allows for much larger BWs
+
+- some devices can't do it all
+- vary/very expensive to require control signals across entire BW
+
+
+
+Receives BW adaptation
+
+-> use narrow BW for monitoring control signals
+
+
+
+Bandwidth Parts 
+
+- subcarriers spacing 
+
+                - cyclic prefix
+                - set of consecutive RBs starting at a certain CRB
+
+
+
+Carriers Aggregation 
+
+Major emphasis -> non-contiguous blocks of carriers in the frequency domain 
+
+
+
+3 scenarios:
+
+- intra-bend aggregation, contiguous subcarriers
+- intra-bend aggregation, non contiguous subcarriers
+- inter-bend aggregation, non contiguous subcarriers
+
+"Carriers" = collection of contiguous subcarriers that are modulated together (by an FFT modulator)
+
+Up to **16** carriers allowed for carriers aggregation
+
+-> 16*400MHz = 6.4GHz max allocation 
+
+mechanics are cell-based
+
+- primary cell (P cell)
+- initial point of connection (initial access)
+
+-secondary cell
+
+- after connection
+- added bandwidth
+
+
+
+Duplex Schemes
+
+modes? of communication
+
+- simplex: one way only
+- half-duplex: two-way but only one wau at a time
+- duplex: two ways same time
+
+ 
+
+Frequency Division Duplex (FDD)
+
+- uplink and downlink on different frequencies
+  - requires separation of frequency $\Delta$ F
+
+Time Division Duplex (TDD)
+
+- uplink and downlink on same carriers freq.
+
+Half Duplex FDD - uplink and downlink separated in freq and time
+
+
+
+Slot formats
+
+3 major issues (allocation by network scheduler *network controlled)
+
+- uplink
+- downlink
+- flexible switching time
+
+
+
+TDD
+
+- Not use in north american celluars
+  - legacy reasons
+- LTE does allow for TDD in standard - Fixed configuration
+
+5G - dynamic 
+
+- switching point can be in the middle of a slot 
+- semi-static until dynamic are needed 
+
+Switching time ~ 20 us (function of circuitry)
+
+
+
+TDD is wave of the future -> easier at high frequencies
+
+
+
+FDD uplink and downlink mostle isolated
+
+
+
+---
+
+Channel Sounding - **Chapter 8**
+
+Critical to LTE/5G
+
+detailed frequently updated information on channel quality
+
+-> channel efficiency
+
+-> supports MIMD
+
+How do we obtain this info?
+
+- measurements taken on known signals (reference signals)
+- count retransmission requests
+- blind estimation
+
+5G uses known signal measurements 
+
+- channel sounding
+
+
+
+**Downlink Channel Sounding**
+
+LTE (R8) - cell specific reference signal (CRS)
+
+- LTE CRS are transmitted over entire carriers
+- one per subframe (1ms)
+- cell specific - transmitted sequence is a function of the cell id
+- always on
+
+LTE (R10)
+
+- Channel state Info Reference Signals (CSI-RS)
+- Not always transmitted
+- LTE devices are configured by network to measure a set of CSI-RS
+
+
+
+5G-NR -only uses CSI-RS
+
+​      extended to beam management and mobility
+
+CSI-RS -up to 32 antena ports
+
+​         port < > channel to be sounded  
+
+gNB sends command to configure UE to listen to a particular set of reference signals
+
+
+
+single port CSI-RS -one RE x 1 slot
+
+multi-port CSI-RS -multiple, orthogonally transmitted per-port CSI-RS sharing a set of RE'S
+
+
+
+sharing - code domain (CDM)
+
+​	separation achieved through or thogonal spreading patterns
+
+​    frequency domain (FDM)
+
+​	time domain (TDM)
+
+
+
+multi port CSI-RS association between per-peort CSI-RS and port numbers
+
+- CDM, then FDM, then TDM
+
+Freq. Domain structure of CSI-RS
+
+- CSI-RS is confined to 1 bandwidth port
+  - same numinology as BW ports
+
+Density 1-CSI-RS sent in many pi source block 1/$\tau$ every other RB
+
+
+
+Time Domain
+
+- periodic every N slot
+- semi persistent periodic but can turn it on and off (MAC control element)
+- aperiodic: turn on and off by signalling in DCI
+
+
+
+**CSI-IM Interference Measurements**
+
+CSI-RS - basic idea for IM listen to known signal, subtract out expected value
+
+CSI-IM - nothing is transmitted
+
+
+
+These CSI-RS are non-zero power (NZP)
+
+- device is scheduled on PDSCH reception and is configured for CSI-RS
+
+
+
+Zero-Power CSI-RS
+
+What if resource block includes CSI-RS for someone else?
+
+NZP-CSI-RS: Device assumes actual transmission and performs measurements
+
+ZP-CSI-RS: Device only knows set of resource blocks to which POSCH is not mapped *no assumptions*
+
+ 
+
+**Tracking Reference Signals (TRS)**
+
+- Designed to detect oscillator imperfections
+- TRS is a resource set consisting of
+- multi periodic NZP-CSI-RS
+- time domain separation -limits frequency error
+- freq. domain separation - timing error limit
+
+
+
+**Downlink Measurement and Reporting**
+
+- Channel Quality Indicator (CQI)
+- Ronk Indicator (RI)
+- Precoder Matrix Indicator (PMI)
+
+Sometimes
+
+- Received Signal Received Power (RSRP)
+
+
+
+CSI Report Configurations (Ordered gNB)
+
+- quantities to be reported
+- downlink resources used for measurement
+- reporting mechanism 
+  - format
+  - uplink channel
+
+
+
+**Resource**
+
+Associate resource configuration with at least one NZP-CSI-RS resource set
+
+- link adaptation, multi-antenna precoding uses single port CSI-RS
+- beam management - multiple CSI-RS
+
+
+
+**Reports**
+
+periodic - PUCCH
+
+semipersistent - PUCCH PUSCH
+
+aperiodic - PUSCH
+
+
+
+**Uplink Channel Sounding**
+
+Sounding Reference Signals (SRS)
+
+- uplink equivalent of CSI-RS, except ...
+  - limited to four antenna ports
+  - limited PAR (peak-average TX power ratio)
+
+SRS uses a comb structure
 
 
 
