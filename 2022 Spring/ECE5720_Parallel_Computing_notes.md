@@ -699,7 +699,38 @@ Each task is executed by a thread
 
 - `master`
 
+## Lecture 7/8?
 
+- PRAM tasks scheduling
+- interconnect topology
+- routing schemes
+- collective communications
+
+### PRAM-scheduling
+
+<font color="blue">**Scheduling**</font> is a scheme for assigning tasks to PEs (any physical computational device) 给计算单元分配的计划
+
+- so the parallel execution time is less than sequential execution time
+
+<font color="blue">**Task graph**</font> $G=(V,E)$ (节点vertices，边edge)
+
+- $V={T_i}$ set of nodes with $T_i\in V$ representing task $i$ 
+- $E=\{e_{ij}\}=\{(i,j)\}$ set of directed edges representing dependencies among the tasks
+- $w(T_i)$ is the (sequential) execution cost of $T_i$ (or weight of $T_i$) 
+  - <font color="red">may</font> include the cost of communicating data
+  - $w(T_i)$ determines the **granularity** of the dependence graph 
+- no circular dependencies (DAG)
+
+**Task scheduling heuristic**
+
+List scheduling 
+
+1. assign tasks to **levels** - dynamic programming
+2. based on levels create a **priority queue**
+3. extract from the priority queue a **ready queue**
+4. assign idle PEs to tasks from the ready queue (in some order)
+5. after finishing a task update the priority and ready queues
+6. repeat from (4) until done
 
 
 
