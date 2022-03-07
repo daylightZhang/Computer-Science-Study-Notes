@@ -1299,49 +1299,274 @@ Sounding Reference Signals (SRS)
 
 SRS uses a comb structure
 
+## Lecture 7
+
+### Transport Channel Processing
+
+*Physical layer provides services to the MAC in the form of transport channels
+
+- Downlink - DL-SCH  -PCH  -BCH
+
+- Uplink -UL-SCH
+
+With each TTI, one or two transport blocks are transmitted
+
+$>$ 4 layers -> 2 blocks 
+
+$<=$ 4 layers -> 1 block
+
+<img src="./ECE5960_Celluar_notes.assets/image-20220302175554010.png" alt="image-20220302175554010" style="zoom: 80%;" />
+
+### Channel Coding
+
+- Insert redundency so that the receivers can detect or correct errors 
+
+- error detection: determine the error are present without trying to correct
+
+Error detected? 1. request retransmission 2. mute the data/packet 3. trying to correct them
+
+### Error detection: Parity Check
+
+-> add a bit so that the total number of ones in the block is odd or even
+
+CRC - more powerful - we add 4, 8, 16 32 extra bits that are a function of the data block
+
+### Error correction
+
+- use redundancy symbols to attempt to correct errors that occur during transmission
+
+### Low density parity check
+
+original idea: Rdoct? Galla?  1962 PhD thesis
+
+- Basic idea: each row and column of a generator matrix  have a fixed number of ls?
+- Decoding  Belief Propogation (1982)  |  the following two called turbo coding
+  - message passing algorithm
+  - drive estimates of p(x,i)  by optimal exchange of parity info
+
+###  Hamming Code: 1948
+
+$\bar C$ is a code word  $\Leftrightarrow$  $\bar C H^T = \bar 0$
+
+$H$ is a  parity check matrix
+
+$H= \left( {\begin{array}{*{20}{c}}
+1&1&0&1&1&0&0\\
+1&0&1&1&0&1&0 \\ 0&1&1&1&0&0&1\end{array}} \right)$
+
+$G=\left( {\begin{array}{*{20}{c}}
+1&0&0&0&1&1&0\\
+0&1&0&0&1&0&1 \\ 0&0&1&0&0&1&1 \\ 0&0&0&1&1&1&1\end{array}} \right)$
+
+$\bar m = [m_0,m_1,m_2,m_3]\Rightarrow \bar c = \bar m G \\ m=[1,1,0,0] \leftrightarrow \bar c = [1,1,0,0,0,1,1]$ 
+
+single error correcting code
+
+Bipartite Graph: $G=(V_1\cup V_2) $ is a graph with two disjoint set of vertices such no two vertices is the sameset are adjacent
+
+<img src="ECE5960_Celluar_notes.assets/image-20220302185321287.png" alt="image-20220302185321287" style="zoom:50%;" />
+
+Message passing algorithm determine likely values of $m_0,m_1,...,m_n$
+
+### LDPC in the standard
+
+Two basic graphs
+
+BG1-coderates, $\frac{1}{3} \sim \frac{22}{24}$ (large blocks) 
+
+BG2-coderates, $\frac{1}{3} \sim \frac{5}{6}$ (small blocks)
+
+ code rate = $\frac{k}{n}$, k-info bits, n=length of codeword, code rate $\downarrow$, error control $\uparrow$ 
+
+### Code block segmentation
+
+<img src="./ECE5960_Celluar_notes.assets/image-20220302190338469.png" alt="image-20220302190338469" style="zoom:67%;" />
+
+**Rate matching and HARQ**
+
+- variable rate achieved through "puncturing" (deletion of parity bits)
+
+**Scrambling**
+
+- multiply sequence of bits by a scrambling a sequence
+  - different sequences in adjacent cell s -> randomizes sources of interference
+
+### Modulation
+
+srambled bits -> complex modulated signals 
+
+- QPSK
+- 16-QAM
+- 64-QAM
+- 256-QAM
+
+### Layer mapping
+
+multiple layers -> multiple bit streams 
+
+Transofrm precoding
+
+uplink only -> reduced peak to average power -> more efficient omps
+
+**molti antenna precoding**
+
+map transmission layers to antenna ports
+
+- mapping done by precoding matrix
+
+---
+
+==Chapter 11==
+
+### Reference Signal
+
+**RS**-predefined signal occupying predefined, resource elements **in the down link**
+
+**LTE**-always on, cell specific, used for coherent demodulation, channel quality estimation, time/freq tracking.
+
+**5G** - different RS for different purposes -> optimization
+
+**NR reference signal**
+
+*Demodulation reference signal (DM-RS)
+
+DL-only in RBs (resource blocks), used for PDSCH, -> for coherent demodulation, ->phase info to help distinguish symbols
+
+UL-DM-RS for PUSCH allows gNB to coherently demodulate PUSCH (a uplink channel)
+
+**Phase tracking (PT-RS)**
+
+- used to compensate for **phase noise**
+  - denser in time, but sparse in frequency than DM-RS
+- Non-linear amps (amplifier) are more efficient/use
+  - less battery power->But they can convey? amplitude noise into phase noise
+
+**CSI-RS**
+
+- used by devices to acquire channel state information
+
+**Tracking reference (TRS)**
+
+- Time and frequency tracking
+- Sparsely allocated
+
+**Sounding reference**
+
+- uplink reference signals for channel estimation 
+
+**DM-RS**
+
+- front loaded to reduce latency
+- up to 12 orthogonal  atenna ports
+- up to 4 RS per slot for very high speeds
+
+**mapping**  **A** (assume most of slot used)
+
+A-first DM-RS is in symbol 2 or 3 of the slot -> ==CORESET== at beginning of slot
+
+**mapping B** (assume only small part of slot is used)
+
+B-first DM-RS is first symbol of allocation to slot
+
+use length ($2^{31} - 1$) Gold sequence
+
+### Physical Layer Control Signals
+
+- L1/L2 control signals support transmission of uplink and downlink transport channels
+- Downlink 
+  - scheduling assignments for UL used by handset -> how to interpret on DL-SCH
+- NR allows for one DL control channel, PDCCH
+
+**PDCCH**
+
+- location varies
+  - search  spaces defined in terms of control resource sets (CORESETS)
+
+Downlink Channel Information (DCI)  34 min 50 s 
+
+<img src="./ECE5960_Celluar_notes.assets/image-20220302235548086.png" alt="image-20220302235548086" style="zoom:150%;" />
+
+**RNTI** (Radio Network Temporary ID)
+
+- 16 bits 
+- differentials CEs or groups of UEs
+- different types 
+  - C-RNTI = cell RNTI -> dedicated to a UE with a given cell
+  - P-RNTI = paging RNTI -> 0xFFFE
+
+**Polar coding**
+
+polarization through spreading is used to create N channels with property that p * N operate near capacity and $(1-p) N$ are operate near 0-capcacity -> capacity-achieveing channels for signaling -> channels defined in terms of code sequence
+
+**Control Resource Set (CORESET)**
+
+- A time/frequency resource in which the UE tries to decode possible control channels
+- Flexbile structure allows for variable BW capabilities and needs of individual cells
+- Cell-level configuration facilities reuse of CORESETS between BW ports -> BW ports flexibility 
+- CORESET indicates where a device may find/receive PDCCH transmissions 
+  - may not be there. ..
+
+Common design choice: locate CORESET at beginning of slot, best for per-slot scheduling decisions
+
+**PDCCH reception**
+
+- Devices uses reference signals associate with candidate PCCH to form  channel estimate (single antenna port used)
+- DM-RS mapped into every 4th subcarriers
+- seach spaces by trying to decode PDCCH candidate
+
+If CRC is valid, you have found the PDCCH
+
+CORESET -> define PDCCH search space 
+
+CRC -> tells us when we found it !
 
 
 
+**Downlink Scheduling Assignments**
 
+formats 1-0 and 1-1
 
+- Identifiers: downlink assignment or uplink grant?
 
+- Resource information 
+  - carriers indication ( if > 1)
+  - BW part indication
+  - frequency domain allocation -> which resource blocks contain PDSCH for this user
+  - time domian allocation
 
+- Transport block Info
+  - modulation encoding, transport block size
+  - new data (clear soft buffer)
+  - presence of 2nd block
 
+**Hybrid ARQ Info**
 
+- process number 
+- feedback timing 
+- code block group identifier 
 
+**Multi antenna Info**
 
+- antenna ports
+- SRS requests (estimate quality of uplink channel)
+- DM-RS initialization
 
+PDCCH Info
 
+- resource indicator
+- power control bits
 
+**Uplink Scheduling Grents** PUSCH
 
+Formats 1-0, 1-1
 
+similar info
 
+Uplink L1/L2 control signalling 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- HARQ acknowledgement
+- CSI
+- Scheduling requests
 
 
 

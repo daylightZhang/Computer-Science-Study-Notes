@@ -15,7 +15,7 @@
     - cooperation (sharing and synchronization)
     - isolation (protection and resource management)
 
-<img src="https://github.com/daylightZhang/Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220129021238806.png?raw=true" style="zoom: 33%;" />
+<img src="./CS5410 Operating System.assets/image-20220129021238806.png?raw=true" style="zoom: 33%;" />
 
 View the OS in two ways:
 
@@ -51,9 +51,9 @@ Motivation to learn OS:
 
 #### 1.2.4 How to manage complexity
 
-- Modularity->minimizes the connections between components
-- Abstraction->separate interface from internals, sperate specification from implementation
-- Hierarchy->easier to understand
+- **Modularity**->minimizes the connections between components
+- **Abstraction**->separate interface from internals, sperate specification from implementation
+- **Hierarchy**->easier to understand
 
 #### 1.2.5 Potential rules that OS can have
 
@@ -66,7 +66,7 @@ Motivation to learn OS:
   - Abstraction 
     - Atomic operation - hardware guarantee atomicity at word level
     - Reliable communication channels
-- Glue: Offer set of commmon services, seperate apps from I/O devices
+- Glue: Offer set of commmon services, seperate apps from I/O devices. Decouples Hardware and app development
 
 ### 1.3 Issue in OS design
 
@@ -90,14 +90,14 @@ Motivation to learn OS:
 
 ### 2.1 History of Operating System
 
-==*Phase* *1*==
+==*Phase* *1*== Computer expensive, human cheap
 
 - Early Era (1945-1955)
 - Batch Processing (1955-1960)
 - Time-Sharing (1960-)
 - Time-Sharing + Security (1965-)
 
-*==Phase 2==*
+*==Phase 2==* computer cheap, human expensive
 
 - Personal Computers (1975-)
 - Modern Era (1990-)
@@ -118,7 +118,7 @@ Motivation to learn OS:
 
 - Two architectures of O.S kernels
 
-  <img src="https://github.com/daylightZhang/Computer-Science-Study-Notes/blob/main/2022%20Spring/CS5410%20Operating%20System.assets/image-20220127132414197.png?raw=true" style="zoom: 67%;" />
+  <img src="./CS5410 Operating System.assets/image-20220127132414197.png?raw=true" style="zoom: 67%;" />
 
 - Comparison
 
@@ -158,13 +158,13 @@ Motivation to learn OS:
 - On signal, hardware:
   1. disable("masks") devices interrupts
   2. sets supervisor mode
-  3. pushes PC(IP), SP, and PSW from before interrupt
+  3. pushes <font color="red">PC(IP), SP, and PSW </font>from before interrupt
   4. set PC to "signal handler"
 
 **Reason for separating user SP / supervisor SP**
 
 - user SP may be illegal
-- user stack may be not be large enough and cause important data to be overwritten
+- user stack **may be not be large enough** and cause important data to be overwritten
 - user may use SP for other things than stack
 - security risks if only one SP
   - kernel could push sensitive data on user stack and unwittingly leave it there
@@ -172,7 +172,7 @@ Motivation to learn OS:
 
 **Interrupt Handling**
 
-PSW(Processor Status Word):
+<font color="red">PSW(Processor Status Word)</font>:
 
 | Supervisor mode bit | Interrupts enabled bit | condition codes |
 | ------------------- | ---------------------- | --------------- |
@@ -650,11 +650,75 @@ Disad:
 
 - If a process is new or it sleeps and wakes up, then its SET is initialized to the minimum of the SETs of the processes on the run queue
 
+**Multi-Level Feedback Queue (MLFQ)**
+
+- Multiple levels of RR queue
+- Jobs start at the top
+- Periodically all jobs back to top
+- Approximates SRTF
+
+**Priority Inversion**
+
+- Problem: some high priority process is waiting for some low priority process, maybe low priority process has a lock on some resource
+- Solution: high priority process (needing lock) temporarily donates priority to lower priority process (with lock)
+
+**Gaming the Scheduler**
+
+- splitting app into multiple process
+- periodically terminating and restarting
+- yielding CPU just before quantum expires
+
+**Multi-core Scheduling**
+
+Desirables:
+
+- Balanced load
+- Scheduling affinity
+- Avoid access contention
+
+<img src="./CS5410 Operating System.assets/image-20220305183928265.png" alt="image-20220305183928265" style="zoom:50%;" />
+
+<img src="./CS5410 Operating System.assets/image-20220305184034433.png" alt="image-20220305184034433" style="zoom:50%;" />
 
 
 
+## Lecure 05 Critical Sections and locks
 
 
+
+**Harmony Virtual Machine *State***
+
+Contain three parts:
+
+1. code (whcih never changes)
+2. values of the shared variables
+3. states of each of the running processes - "contexts"
+
+Context (state of a process)
+
+- Method name and parameters 
+- PC (program counter)
+- stack (+ implicit stack pointer)
+- local variables
+  - parameters (aka arguments)
+  - result - there is no return statement
+  - local variables - declared in **var, let** and **for** statement
+
+**Non-determinism in Harmony**
+
+Three sources:
+
+1. **choose** expressions
+2. thread interleavings
+3. interrupts
+
+<font color="red">Limitation</font>: models must be finite, **But** models are allowed to have cycles, executions are allowed to be unbounded.
+
+**What is an invariant?**
+
+A property that holds in all reachable states
+
+A property is a set of states.
 
 
 

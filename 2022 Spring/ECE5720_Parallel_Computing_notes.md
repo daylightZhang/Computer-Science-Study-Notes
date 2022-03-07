@@ -706,7 +706,7 @@ Each task is executed by a thread
 - routing schemes
 - collective communications
 
-### PRAM-scheduling
+### PRAM-scheduling (Parallel Random Access Memory)
 
 <font color="blue">**Scheduling**</font> is a scheme for assigning tasks to PEs (any physical computational device) 给计算单元分配的计划
 
@@ -725,13 +725,300 @@ Each task is executed by a thread
 
 List scheduling 
 
-1. assign tasks to **levels** - dynamic programming
-2. based on levels create a **priority queue**
-3. extract from the priority queue a **ready queue**
+1. assign tasks to <font color="blue">**levels**</font> - dynamic programming
+2. based on levels create a <font color="blue">**priority queue**</font>
+3. extract from the priority queue a <font color="blue">**ready queue**</font>
 4. assign idle PEs to tasks from the ready queue (in some order)
 5. after finishing a task update the priority and ready queues
 6. repeat from (4) until done
 
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304091258098.png" alt="image-20220304091258098" style="zoom:80%;" />
+
+Priority queuee: {T1 | T2 | T4, T5, T3 | T7, T8, T6 | T9}
+
+The **worst** case performance of the heuristic for $m$ processors is 
+$$
+\frac{t-t_{opt}}{t_{opt}}<= 1-\frac{1}{m}
+$$
+The optimal schedule is at **most twice** as long as the derived one.
+
+The lower bound on the performance is given by the critical path of $T_0$.
+
+### Networks
+
+Switch to distributed systems
+
+- Interconnection networks
+- Network characterization
+  - diameter
+  - bisection bandwidth
+  - degree
+- routing
+  - flow control
+  - rules for pushing messages through networks
+
+Distributed algorithms have some communication patterns:
+
+- ideally the patterns would match the physical network
+- want network topologies and routing schemes that emulate most common communication patterns
+
+Network topologies 
+
+- <font color="blue">**Static**</font> consist of direct point-to-point communication links
+- <font color="blue">**Dynamic**</font> networks are built using intermediate switches. - internal nodes without attached processors or memories
+
+Networks modeled as connected undirected graphs $(N,E)$.
+
+Common network topologies
+
+- Bus - simultaneous references always serialize
+- Crossbar - indirect network 
+  - allows simultaneous references to disjoint memory banks
+- Multistage networks - indirect network
+  - provide constant access time to memory banks
+- 1D or 2D meshes (sing or torus)
+- (Fat) tree
+- Hypercube
+
+**Crossbar**
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304121207081.png" alt="image-20220304121207081" style="zoom:80%;" />
+
+**Multistage networks**
+
+- Indirect networks with multiple layers of switches between sources and destinations
+- cost $O(nlog_2n)$, access time $O(log_2n)$
+- more scalable than a crossbar
+- Omega network, butterfly network
+
+**-Omega routing **
+
+(010) -> (101) $\Rightarrow$ (010) $\rightarrow$ cross $\rightarrow$ pass $\rightarrow$ cross 
+
+<font color="red">Rules:</font> Pass-through of $d_k=s_k$, cross over if $d_k != s_k$
+
+**-Butterfly**
+
+(0001) $\rightarrow$ (0110) $\Rightarrow$ (0001) $\rightarrow$ upper $\rightarrow$ lower $\rightarrow$ lower $\rightarrow$ upper
+
+<font color="red">Rules:</font> lower port if  $d_k=1$, upper port if $d_k = 0$
+
+**n-node 2D and 1D meshes**
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304122554142.png" alt="image-20220304122554142" style="zoom:50%;" />
+
+**Fat Tree**
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304123158193.png" alt="image-20220304123158193" style="zoom: 67%;" />
+
+**Hypercube**
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304123238268.png" alt="image-20220304123238268" style="zoom:67%;" />
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304123259176.png" alt="image-20220304123259176" style="zoom:67%;" />
+
+### Routing
+
+PEs communicate via sending ==messages==. 
+
+Time to send a message on a single link includes 
+
+- $s$ - assembling time, copying to buffers, etc
+- $q$ - queueing time (waiting for availability of links)
+- $t_w$ - transmission time per word
+- $t_h$ - time per hop
+- $l_m$ - length of the message (in bits, flits or packets)
+
+Delay on a chain of $k$ links
+$$
+D = t_s + l_m \cdot t_w + k \cdot t_h\\
+t_s >> t_w >> t_{flop}
+$$
+Messages are guided through the network according to **routing policy**
+
+Routing techniques: **circuit** switching and **packet** switching
+
+**Circuit switching**
+
+- A probe of length $l_p$ reserves channels connecting the source the destination
+- If a requested channel is not available the probe is retransmitted
+- Once the route is reserved, the message is transmitted 
+- If not blocked, the latency on $k$ links is
+
+$$
+T_{cs} = t_s + l_p \cdot t_w \cdot k + l_m \cdot t_w
+$$
+
+**Packet switching**
+
+- Messages are divided into **packets**
+  - packet = (control header) + (data) + (error correction) + etc
+  - possibly divided into **flits** (do not have routing info)
+- each packet can be routed independently
+- the message is reassembled at the destination
+
+Types: store and forward, wormhole, cur through
+
+-**Store and forward**
+$$
+T_{store-and-forwar}=t_s + l_m \cdot t_w \cdot k
+$$
+-**Wormhole routing**
+
+- the first **header** flit contains routing information
+- All other flits follow the header in a pipeline fashion
+- If the header cannot progress the pipeline is frozen along the already occupied channels (may cause deadlock in the network if not treated carefully).
+- Buffers are needed as temporary storage for flits in transit
+- The latency is $T_w=t_s + k \cdot t_h + l_m \cdot t_m$
+
+-**Cut-through** is a variant of wormhole routing where
+
+- if the header flit is blocked, all remining flits from the packet move until the whole packet is buffered in the node
+- requires large buffers but frees channels for other messages
+- in the absence of other traffic in the network, the behavior of cut-through and wormhole routing is the same 
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304125359111.png" alt="image-20220304125359111" style="zoom:50%;" />
+
+**Wormhole vs. store-and-forward**
+
+For a message of length $l_m$ bytes that travels $k$ links
+$$
+t_{wormhole} = t_s + k \cdot t_h + l_m \cdot t_w \\
+t_{store-and-forward} = (t_s+l_m \cdot t_w) \cdot k
+$$
+**Trade-offs**
+
+Parameters like $t_h$ or $t_w$ depend on the bandwidth
+
+- time in hypercube $t_{hypercube} = t_s + \frac{n}{2} \cdot t_h + t_w \cdot l_m$ 
+- in torus $t_{torus} = t_s + 2^{\frac{n}{2} -1 } \cdot t_h + t_w \cdot \frac{4l_m}{n}$.
+
+For a fixed $2^n$, as $l_m$ increases, $t_{hypercube}$ becomes larger than $t_{torus}$.
+
+### Typical Communication Patterns
+
+- single node broadcast
+- multinode broadcast
+- single node scatter (gather)
+- multiple node scatter
+- total exchange
+- single node accumulation
+- multiple node accumulation
+
+**Broadcast on a ring**
+$$
+t_{single-node-broadcast}^{store-and-forward}=(t_s+l_mt_w)\frac{n}{2}
+$$
+
+$$
+t_{single-node-broadcast}^{wormhole}=(t_s+l_mt_w)log_2n+nt_h
+$$
+For sufficiently large $l_m$
+$$
+\frac{t_{sf}}{t_{worm}} \approx \frac{n}{2log_2n} 
+$$
+**Broadcast - torus**
+$$
+t_{single-node-broadcast}^{store-and-forward}=(t_s+l_mt_w) \sqrt{n}
+$$
+
+$$
+t_{single-node-broadcast}^{wormhole}=(t_s+l_mt_w)log_2n+2\sqrt{n}t_h
+$$
+
+**Multinode broadcast - ring**
+$$
+t_{multi-node-broadcast}^{store-and-forward}=(t_s+l_mt_w) n
+$$
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304175131388.png" alt="image-20220304175131388" style="zoom:67%;" />
+
+**Scatter - ring**
+$$
+t_{scatter} = log_2n \cdot t_s + (n-1)l_mt_w
+$$
+**Single node accumulation -ring**
+$$
+t_{accum}=log_2n(t_s+(t_w+t_{flop}))
+$$
+**Total exchange - ring**
+$$
+t_{total-exchange} \approx n(t_s + \frac{n}{2}l_mt_w)
+$$
+
+---
+
+**Multinode broadcasr - torus**
+$$
+t_{MNB} = (\sqrt{n} - 1) (2t_s + (\sqrt{n})l_mt_w)
+$$
+**Scatter - n x n torus**
+$$
+t_{SNS} = log_2n \cdot t_s + (n^2 - 1) l_m t_w + \\
+log_2n \cdot t_s + (n^2 - 1)l_mt_w = 2log_2nt_s + (n^2 + n - 2)l_mt_w
+$$
+**Total exchange - torus**
+$$
+t_{MNS} = (\sqrt{n} - 1) (2t_s + (\sqrt{n}+1)(n-1)l_mt_w)
+$$
+<font color="red" size=10pt>**Summary**</font>
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304183114417.png" alt="image-20220304183114417" style="zoom:67%;" />
+
+## Lecture 10 - mpi_1
+
+- Message-Passing Programming
+- The Building Blocks: Send and Receive Operations
+- Groups and Communicators
+- Collective Communication and Computation Operations
+
+**Message-Passing Model**
+
+Hybrid distributed / shared memory system supporting the message-passing
+
+- $n$ processing node, each with its own exclusive address space 
+- each node consists of $k$ cores sharing the same address space
+- interconnection fabric with associated routing protocols 
+- programming model is a distributed memory model
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220305141535239.png" alt="image-20220305141535239" style="zoom:50%;" />
+
+- MPI between nodes
+- MPI or OpenMP within nodes
+- data must be explicitly assigned to node by the programmer
+- nodes execute asynchronously 
+- non-local reads / writes require cooperation of two nodes
+  - the node that has the data 
+  - the node that wants the data
+  - the programmer is responsible for correctness of read / write ops
+  - most often written using the (SPMD) model
+
+**MPI**
+
+- C, C++ or Fortran with MPI extensions
+- MPI is available on clusters and all commercial parallel computers
+- it is possible to write fully-functional message-passing programs by using only **6** MPI directives
+
+<img src="./ECE5720_Parallel_Computing_notes.assets/image-20220305142137630.png" alt="image-20220305142137630" style="zoom: 50%;" />
+
+- Compiled with `mpicc filename.c`
+- `#include "mpi.h"` must be present
+- Executed with `mpirun -np N - hostfile my_hosts`
+- `my_hosts` IP address of nodes
+
+The following directives:
+
+1. `MPI_Init` - Initialize MPI
+2. `MPI_Finalize` - Terminates MPI
+3. `MPI_Comm_size` - Determines the number of processes
+4. `MPI_Comm_rank` - Determines the id of the calling process 
+5. `MPI_Send` - Sends a message (blocking)
+6. `MPI_Recv` - Receives a message (blocking)
+
+Nodes can communicate only within user defined 
+
+- groups called <font color="blue">communicators</font>
+- if no group is defined by the user, the system defined group <font color="blue">`MPI_COM_WORLD`</font>
+- `MPI_COM_WORLD` is the maximal group of PEs available to the user
 
 
 
@@ -741,16 +1028,16 @@ List scheduling
 
 
 
+## Lecture 11 - mpi_2
 
+An API for distributed memory systems (MIMD)
 
-
-
-
-
-
-
-
-
+- $p$ PEs, each with its own exclusive memory 
+- data must be partitioned and placed by the programmer 
+- communications are two sided
+  - PE which sends the data
+  - PE which receives the data
+- commonly a Single Program Multiple Data code
 
 
 
