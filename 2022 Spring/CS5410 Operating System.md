@@ -190,7 +190,7 @@ Motivation to learn OS:
 **Saving Registers**
 
 - On interrupt, the kernel needs to save the registers as the kernel code needs to use the registers to handle the interrupt
-- Saving / restoring registers is expensive. Not all registers need to be saved (**SP, OC, PSW** is saved by *hardware*, other registers are saved by *software*)
+- Saving / restoring registers is expensive. Not all registers need to be saved (**SP, PC, PSW** is saved by *hardware*, other registers are saved by *software*)
 
 <img src=".\CS5410 Operating System.assets\image-20220129141810001.png" alt="image-20220129141810001" style="zoom:50%;" />
 

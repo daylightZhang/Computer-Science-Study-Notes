@@ -964,6 +964,16 @@ $$
 
 <img src="./ECE5720_Parallel_Computing_notes.assets/image-20220304183114417.png" alt="image-20220304183114417" style="zoom:67%;" />
 
+SNB=single node broadcast
+
+MNB=multinode broadcast
+
+SNG=single node scatter (gather)
+
+SNA=single node accumulation
+
+TEX=total exchange
+
 ## Lecture 10 - mpi_1
 
 - Message-Passing Programming
