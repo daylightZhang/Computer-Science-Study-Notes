@@ -1568,29 +1568,83 @@ Uplink L1/L2 control signalling
 - CSI
 - Scheduling requests
 
+## Lecture 8? 3/15
+
+MIMO
+
+SVD $\rightarrow$ multiple independent paths between transmit and receive antennas
+
+1. diversity
+2. spatial multiplexings / any combination
 
 
 
+Number of Layers = $min\{N_T,N_R,rank(H) \}$
+
+**MIMO implementations**
+
+![image-20220318010939179](ECE5960_Celluar_notes.assets/image-20220318010939179.png)
+
+W is easy to design, DACs are high frequency -> more expensive
+
+**Downlink**
+
+CSI reports
+
+- RI - rank indicator, estimate as to approprite layerss
+- PMI - precoding matrix indicator, estimate precoding
+- CQI - channel quality indicator, estimate of the size of the transport block that can be set with 90% with no errors
+
+Each possible value of PMI corresponds to one specific precoding matrix
+
+available values = precoding codebook
+
+precoding applies for each combination of numbers of antenna parts and number of layers
+
+*In 5G arbitrary precoding matrices selected by TX and RX
+
+**MIMO - multi-uses**
+
+- choose matrices that not only focus energy in a given uses, but also limit adjacent interference
+
+Type1-CSI  - a single uses is scheduled (no mu-MIMO), allows for higher-orders spatial moltiplexing
+
+Type2-CSI -  mu-MIMO scenarios  2 layers per users
+
+Type-I Single Pannel CSI 
+
+**multi-pannel CSI** 
+
+$w_1$ are beam per polarization  pannel
+
+$w_2$ subband co-phase as well as pannels
+
+codebook precodes matrices 
+
+**Uplink**
+
+NR- support uplink (PUSCH) multi-antenna precoding up to layers
+
+codebook based 
+
+non-codebook based 
+
+*Channel raciprocity
 
 
 
+**Chapter 12 Beam Managment**
 
+![image-20220318015141956](ECE5960_Celluar_notes.assets/image-20220318015141956.png)
 
+Typical Antenna Patterns
 
+![image-20220318015526021](ECE5960_Celluar_notes.assets/image-20220318015526021.png)
 
+![image-20220318015839153](ECE5960_Celluar_notes.assets/image-20220318015839153.png)
 
+![image-20220318020627199](ECE5960_Celluar_notes.assets/image-20220318020627199.png)
 
+![image-20220318020848362](ECE5960_Celluar_notes.assets/image-20220318020848362.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+![image-20220318021244552](ECE5960_Celluar_notes.assets/image-20220318021244552.png)
