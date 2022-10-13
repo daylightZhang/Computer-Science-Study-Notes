@@ -1648,3 +1648,89 @@ Typical Antenna Patterns
 ![image-20220318020848362](ECE5960_Celluar_notes.assets/image-20220318020848362.png)
 
 ![image-20220318021244552](ECE5960_Celluar_notes.assets/image-20220318021244552.png)
+
+## Lecture 9 3/17
+
+<img src="./ECE5960_Celluar_notes.assets/image-20220324111902975.png" alt="image-20220324111902975" style="zoom: 200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324112158243.png" alt="image-20220324112158243" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324112516868.png" alt="image-20220324112516868" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324113021516.png" alt="image-20220324113021516" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324113325953.png" alt="image-20220324113325953" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324113822535.png" alt="image-20220324113822535" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324114024971.png" alt="image-20220324114024971" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324114322585.png" alt="image-20220324114322585" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324114607542.png" alt="image-20220324114607542" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324114955688.png" alt="image-20220324114955688" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324115149318.png" alt="image-20220324115149318" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324115456972.png" alt="image-20220324115456972" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324115801185.png" alt="image-20220324115801185" style="zoom:200%;" />
+
+<img src="ECE5960_Celluar_notes.assets/image-20220324120224822.png" alt="image-20220324120224822" style="zoom:200%;" />
+
+## 3/22  2022
+
+![image-20220327191128630](ECE5960_Celluar_notes.assets/image-20220327191128630.png)
+
+<img src="ECE5960_Celluar_notes.assets/image-20220327192011289.png" alt="image-20220327192011289" style="zoom:200%;" />
+
+Scheduling
+
+![image-20220327192411730](ECE5960_Celluar_notes.assets/image-20220327192411730.png)
+
+![image-20220327192747275](ECE5960_Celluar_notes.assets/image-20220327192747275.png)
+
+![image-20220327193239576](ECE5960_Celluar_notes.assets/image-20220327193239576.png)
+
+![image-20220327193745515](ECE5960_Celluar_notes.assets/image-20220327193745515.png)
+
+![image-20220327194401895](ECE5960_Celluar_notes.assets/image-20220327194401895.png)
+
+![image-20220327194637254](ECE5960_Celluar_notes.assets/image-20220327194637254.png)
+
+![image-20220327195000027](ECE5960_Celluar_notes.assets/image-20220327195000027.png)
+
+![image-20220327195210611](ECE5960_Celluar_notes.assets/image-20220327195210611.png)
+
+ ![image-20220327195605424](ECE5960_Celluar_notes.assets/image-20220327195605424.png)
+
+![image-20220327195755588](ECE5960_Celluar_notes.assets/image-20220327195755588.png)
+
+## 3/24/2022
+
+![image-20220327232100880](ECE5960_Celluar_notes.assets/image-20220327232100880.png)
+
+![image-20220327232356615](ECE5960_Celluar_notes.assets/image-20220327232356615.png)
+
+![image-20220327232729206](ECE5960_Celluar_notes.assets/image-20220327232729206.png)
+
+![image-20220327233136389](ECE5960_Celluar_notes.assets/image-20220327233136389.png)
+
+![image-20220327233509252](ECE5960_Celluar_notes.assets/image-20220327233509252.png)
+
+![image-20220327234017448](ECE5960_Celluar_notes.assets/image-20220327234017448.png)
+
+![image-20220327234539638](ECE5960_Celluar_notes.assets/image-20220327234539638.png)
+
+![image-20220327234931131](ECE5960_Celluar_notes.assets/image-20220327234931131.png)
+
+Chapter 15
+
+![image-20220327235332519](ECE5960_Celluar_notes.assets/image-20220327235332519.png)
+
+![image-20220327235847693](ECE5960_Celluar_notes.assets/image-20220327235847693.png)
+
+![image-20220328000447276](ECE5960_Celluar_notes.assets/image-20220328000447276.png)
+
+![image-20220328000839392](ECE5960_Celluar_notes.assets/image-20220328000839392.png)
